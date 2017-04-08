@@ -127,7 +127,7 @@ class sList(object):
             front = self.head
             end = self.head.next
             front.next = None
-            while end ！= None:
+            while end != None:
                 tmp = end.next
                 end.next = front
                 front = end

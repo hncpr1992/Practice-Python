@@ -1,4 +1,4 @@
-from Node import node
+from node import Node
 
 class sList(object):
 
@@ -6,14 +6,16 @@ class sList(object):
     def __init__(self, head = None):
         self.head = head
         if head:
-            "initailize with a list of nodes"
-            tmp = self.head
+        #     "initailize with a list of nodes"
+        #     tmp = self.head
+        #     self.size = 1
+        #     while tmp.next != None:
+        #         tmp = tmp.next
+        #         self.size += 1
+        # else:
+        #     "initialize without nodes"
             self.size = 1
-            while tmp.next != None:
-                tmp = tmp.next
-                self.size += 1
         else:
-            "initialize without nodes"
             self.size = 0
 
     def get_size(self):
@@ -26,14 +28,11 @@ class sList(object):
             return False
 
     def value_at(self, n):
-        "return -1 if n is larger than size"
-        if n > self.size - 1:
-            return -1
-        else:
+        if n < self.size:
             tmp = self.head
             for i in range(n):
                 tmp = tmp.next
-            return tmp.get_value()
+            return tmp.value
 
     def push_front(self, item):
         if self.size == 0:
@@ -46,9 +45,9 @@ class sList(object):
     def pop_front(self):
         if self.size > 0:
             tmp = self.head
-            self.head = self.head.next.next
+            self.head = self.head.next
             self.size -= 1
-            return tmp.get_value()
+            return tmp.value
 
     def push_back(self,item):
         if self.size == 0:
@@ -62,31 +61,33 @@ class sList(object):
             self.size += 1
 
     def pop_back(self):
-        if self.size > 0:
+        if self.size == 1:
+            tmp = self.head
+            self.head = None
+            self.size -= 1
+            return tmp.value
+        elif self.size > 1:
             tmp = self.head
             while tmp.next.next != None:
                 tmp = tmp.next
             last_node = tmp.next
             tmp.next = last_node.next
             self.size -= 1
-            return last_node.get_value()
+            return last_node.value
 
     def front(self):
         if self.size > 0:
-            return self.head.get_value()
+            return self.head.value
 
     def back(self):
         if self.size > 0:
             tmp = self.head
             while tmp.next != None:
                 tmp = tmp.next
-            return tmp.get_value()
+            return tmp.value
 
     def insert(self, index, item):
-        "return -1 if index is out of bound"
-        if index > self.size - 1:
-            return -1
-        else:
+        if index < self.size:
             tmp = self.head
             if index == 0:
                 self.push_front(item)
@@ -95,15 +96,12 @@ class sList(object):
                     tmp = tmp.next
                 item.next = tmp.next
                 tmp.next = item
-            self.size += 1
+                self.size += 1
 
     def erase(self,index):
-        "return -1 if index is out of bound"
-        if index > self.size - 1:
-            return -1
-        else:
+        if index < self.size:
             if index == 0:
-                self.head = self.head.next.next
+                self.head = self.head.next
             else:
                 tmp = self.head
                 for i in range(index-1):
@@ -120,7 +118,7 @@ class sList(object):
             while end.next != None:
                 end = end.next
                 front = front.next
-            return front.get_value()
+            return front.value
 
     def reverse(self):
         if self.size > 1:
@@ -136,17 +134,17 @@ class sList(object):
 
     def remove_value(self, value):
         if self.size > 0:
-            if self.head.get_value() == value:
+            if self.head.value == value:
                 self.head = self.head.next
                 self.size -= 1
             else:
                 if self.size > 1:
                     front = self.head
                     end = self.head.next
-                    while (end.next != None) and (end.get_value() != value):
+                    while (end.next != None) and (end.value != value):
                         front = end
                         end = end.next
-                    if end.get_value() == value:
+                    if end.value == value:
                         front.next = end.next
                     self.size -= 1
 
